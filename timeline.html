@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>History of AI | AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="timeline">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero one">
+    <div>
+      <h1>History of AI</h1>
+      <p>AI is more than 70 years old. It moved through big hopes, slow periods and sudden breakthroughs. Scroll down to see the key moments that led to today's AI tools.</p>
+    </div>
+  </div>
+
+  <section class="block" style="margin-top:20px">
+    <div class="tl" id="tl"></div>
+    <div class="callout"><b>What the timeline shows:</b> Progress came from three things growing together: better algorithms (like the Transformer), much more data, and much faster computers.</div>
+  </section>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+/* [year, title, what happened, why it mattered] */
+const timeline=[
+  ['1950','The Turing test','Alan Turing publishes a paper asking "Can machines think?" and proposes an "imitation game" where a machine tries to be indistinguishable from a human in conversation.','It gave the field a clear question and a way to talk about machine intelligence.'],
+  ['1956','AI gets its name','At a workshop at Dartmouth College, researchers use the term "artificial intelligence" and set out to study it as a field.','This is widely seen as the birth of AI as a research area.'],
+  ['1966','ELIZA','Joseph Weizenbaum creates ELIZA, a simple chatbot that imitates a therapist by rephrasing what you type.','People felt it understood them, even though it followed simple rules. It showed how easily humans read intelligence into machines.'],
+  ['1997','Deep Blue beats the chess champion','IBM\'s Deep Blue defeats world chess champion Garry Kasparov.','A machine beat the best human at a task long seen as a sign of intelligence.'],
+  ['2012','The deep learning boom','A deep neural network called AlexNet wins the ImageNet image recognition contest by a large margin.','It showed that deep learning with lots of data and powerful graphics chips (GPUs) works very well, and started the modern AI wave.'],
+  ['2016','AlphaGo beats Lee Sedol','Google DeepMind\'s AlphaGo defeats Lee Sedol, one of the world\'s top players of the game Go.','Go is far too complex to solve by brute force. The win showed that learning systems could master intuition-heavy tasks.'],
+  ['2017','The Transformer','Researchers at Google publish "Attention Is All You Need" and introduce the Transformer architecture.','Almost every modern language model, including those behind today\'s chatbots, is built on this design.'],
+  ['2018','BERT and the first GPT','Google releases BERT and OpenAI releases the first GPT model, both built on Transformers and pre-trained on large text collections.','Pre-training on huge text and then adapting to tasks became the standard recipe.'],
+  ['2020','GPT-3','OpenAI\'s GPT-3, with 175 billion parameters, shows that a large language model can write, translate and answer questions from just a few examples in the prompt.','It proved that scale brings surprising abilities and made prompting a skill.'],
+  ['2022','ChatGPT and AI images','ChatGPT launches in November and reaches a huge audience in weeks. Image tools like Stable Diffusion and Midjourney make AI art popular.','Generative AI moved from research labs into everyday life.'],
+  ['2023','The race of models','GPT-4, Claude, Gemini and open models like Llama appear. AI assistants start to appear inside office tools, search and coding editors.','Competition raised quality fast, and open models let more people build with AI.'],
+  ['2024','Multimodal and long context','Models can handle text, images and audio together and read much longer documents. AI video tools such as Sora are previewed.','AI became able to work with more of the real world, not just text.'],
+  ['2025','Agents and reasoning','Reasoning models that think through problems in steps, and AI agents that use tools to complete multi-step tasks, become mainstream, especially in coding, research and office work.','The focus moved from AI that answers to AI that acts, which brings new benefits and new safety questions.']
+];
+const tl=$('#tl');
+timeline.forEach(([y,t,what,why])=>{
+  const d=document.createElement('div');d.className='tl-item';
+  d.innerHTML='<div class="tl-year"></div><h3></h3><p></p><p class="why"><b>Why it mattered: </b><span></span></p>';
+  d.querySelector('.tl-year').textContent=y;
+  d.querySelector('h3').textContent=t;
+  d.querySelector('p').textContent=what;
+  d.querySelector('.why span').textContent=why;
+  tl.appendChild(d);
+});
+</script>
+</body>
+</html>

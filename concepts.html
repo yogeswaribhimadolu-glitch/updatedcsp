@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Key AI terms explained | AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="concepts">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero one">
+    <div>
+      <h1>Key AI terms explained</h1>
+      <p>The glossary page gives one-line definitions. This page goes deeper: what each idea actually means, a real example, and why it matters. Jump to any term below.</p>
+    </div>
+  </div>
+
+  <div class="toc" id="jump"><b>Jump to:</b></div>
+
+  <div id="termBox"></div>
+
+  <section class="block">
+    <h2>How these terms connect</h2>
+    <p class="lead">A quick map of how the pieces fit together, from the model itself to how you use it.</p>
+    <ol class="seq">
+      <li><b>Neural network → Transformer</b><span>A Transformer is a specific, very successful type of neural network design, built around a mechanism called attention.</span></li>
+      <li><b>Transformer + training data → LLM</b><span>Training a Transformer on huge amounts of text produces a Large Language Model. Training determines its parameters.</span></li>
+      <li><b>LLM + a task → Inference</b><span>Every time you send a prompt, the model performs inference: it uses its trained parameters to predict the next tokens.</span></li>
+      <li><b>LLM + your own data → RAG or fine-tuning</b><span>To make an LLM answer using your own documents, you either retrieve and attach relevant text at request time (RAG) or retrain part of the model on your data (fine-tuning).</span></li>
+      <li><b>LLM + step-by-step training → Reasoning model</b><span>Training a model to work through problems in steps before answering produces a reasoning model, better at maths and logic.</span></li>
+      <li><b>LLM + other data types → Multimodal model</b><span>Training on images and audio as well as text produces a multimodal model that can understand more than plain text.</span></li>
+    </ol>
+  </section>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+/* [id, title, paragraph, example, why] */
+const terms=[
+  ['llm','LLM (Large Language Model)',
+   'An LLM is an AI model trained on enormous amounts of text so it can predict which words are likely to come next. It does not "know" facts the way a database does; it has learned statistical patterns of language, which lets it write, explain, translate and answer questions.',
+   'ChatGPT, Claude and Gemini are all built on LLMs. When you ask a question, the LLM generates its answer one token at a time.',
+   'Almost every AI chatbot and writing tool you use is powered by an LLM underneath, so understanding what it can and cannot do explains a lot about AI behaviour.'],
+  ['neural-network','Neural network',
+   'A neural network is a computing system made of layers of simple connected units called neurons, loosely inspired by the brain. Each connection has a weight, and the network adjusts these weights during training so that, given an input, it produces the correct output.',
+   'A neural network trained on thousands of labelled photos can learn to tell cats from dogs by adjusting its weights until it gets more photos right.',
+   'Neural networks are the basic building block behind almost all modern AI, including LLMs, image generators, and voice assistants.'],
+  ['transformer','Transformer',
+   'The Transformer is a neural network design introduced in 2017 that processes an entire sequence of tokens at once and uses a mechanism called "attention" to weigh how much each token should influence every other token. This made it much faster to train than older designs and much better at handling long text.',
+   'When a Transformer reads "The trophy did not fit in the suitcase because it was too big," attention helps it correctly link "it" to "the trophy," not "the suitcase."',
+   'Almost every modern language model (GPT, Claude, Gemini, Llama) and many image and audio models are built on the Transformer design.'],
+  ['embedding','Embedding',
+   'An embedding turns a piece of text, an image, or other data into a list of numbers (a vector) that represents its meaning. Texts with similar meaning end up with similar numbers, even if they use completely different words.',
+   'The embeddings for "a place to eat" and "a good restaurant" would sit close together in this number-space, even though they share no words.',
+   'Embeddings are what make search, recommendations and RAG possible: a system can find "similar meaning" content instead of only matching exact words.'],
+  ['fine-tuning','Fine-tuning',
+   'Fine-tuning takes an existing trained model and trains it further on a smaller, specific set of examples so it becomes better at a particular job, tone, or format, without training a whole new model from scratch.',
+   'A general LLM can be fine-tuned on thousands of examples of customer support replies so it consistently answers in a company\'s preferred tone and format.',
+   'Fine-tuning is cheaper and faster than training a model from zero, and is how companies adapt a general-purpose model to a specific use case.'],
+  ['rag','RAG (Retrieval-Augmented Generation)',
+   'RAG means retrieving relevant documents or data before the model answers, and adding that information to the prompt so the model can use it. This lets an AI answer accurately about information it was never trained on, such as private company documents or a live website, without retraining the model itself.',
+   'The AI Chat page on this website uses a simple form of RAG: a summary of this site\'s own pages is attached to every question, so the chatbot can answer questions about this website\'s content specifically, not just AI in general.',
+   'RAG is one of the most common ways real companies connect general AI models to their own private or up-to-date data, because it is far cheaper than fine-tuning and the data can be updated instantly.'],
+  ['reasoning-model','Reasoning model',
+   'A reasoning model is trained to work through a problem in explicit steps internally before producing its final answer, rather than jumping straight to a response. This extra "thinking" time noticeably improves performance on maths, logic, coding and multi-step planning tasks.',
+   'Given a multi-step word problem, a reasoning model works through each calculation internally before stating the final number, which usually gives a more reliable answer than a direct guess.',
+   'As of 2025, many leading AI tools offer a reasoning mode for harder questions, trading a bit more time for a more careful, more accurate answer.'],
+  ['multimodal','Multimodal AI',
+   'A multimodal model can understand and sometimes generate more than one type of data, such as text, images, audio, or video, within the same conversation, instead of being limited to text alone.',
+   'You can show a multimodal model a photo of a maths problem written on paper and ask it to solve it, or ask it to describe what is happening in a short video clip.',
+   'Multimodal AI lets tools work with the messy, mixed-format way humans actually communicate: photos, screenshots, voice notes and documents, not just typed text.'],
+  ['parameters','Parameters',
+   'Parameters are the internal numbers, often billions of them, that a model adjusts during training to capture patterns in its data. Once training is done, these numbers stay fixed and are used to generate every future response (until the model is retrained or fine-tuned).',
+   'A "70 billion parameter" model has 70 billion of these adjustable numbers; broadly, more parameters can mean more capacity to learn complex patterns, but training quality and data matter just as much.',
+   'Parameter count is often used as a rough (and imperfect) way to compare the scale of different AI models.'],
+  ['inference','Inference',
+   'Inference is the process of actually running a trained model to produce an output. Training happens once (and is expensive); inference happens every single time someone sends a prompt and gets a response.',
+   'When you type a question into a chat app and press send, the servers behind it perform inference: they run your tokens through the already-trained model to generate a reply.',
+   'The cost and speed you experience using an AI tool day to day comes from inference, which is why token limits, response speed and API pricing are all about inference, not training.']
+];
+
+const jump=$('#jump');
+terms.forEach(t=>{
+  const a=document.createElement('a');
+  a.href='#'+t[0];a.textContent=t[1].split(' (')[0];
+  jump.appendChild(a);
+});
+
+const box=$('#termBox');
+terms.forEach(t=>{
+  const id=t[0],title=t[1],para=t[2],example=t[3],why=t[4];
+  const s=document.createElement('section');
+  s.className='block';s.id=id;
+  s.innerHTML='<h2></h2><p class="txt"></p><div class="card" style="margin-top:10px"><h3>Example</h3><p></p></div><div class="callout"><b>Why it matters: </b><span></span></div>';
+  s.querySelector('h2').textContent=title;
+  s.querySelector('p.txt').textContent=para;
+  s.querySelectorAll('p')[1].textContent=example;
+  s.querySelector('.callout span').textContent=why;
+  box.appendChild(s);
+});
+</script>
+</body>
+</html>

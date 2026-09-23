@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generative AI, agents and agentic AI | AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="genai">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero one">
+    <div>
+      <h1>Generative AI, AI agents and agentic AI</h1>
+      <p>These three terms are often mixed up. This page explains each one in depth, shows how they connect, and ends with a comparison table and a quiz. The short version: Generative AI creates, AI agents act, and agentic AI plans and pursues goals on its own.</p>
+    </div>
+  </div>
+
+  <div class="toc"><b>On this page:</b>
+    <a href="#overview">Overview</a>
+    <a href="#genai">Generative AI</a>
+    <a href="#agents">AI agents</a>
+    <a href="#agentic">Agentic AI</a>
+    <a href="#loop">Agent loop demo</a>
+    <a href="#table">Difference table</a>
+    <a href="#examples">Examples</a>
+    <a href="#quiz">Quiz</a>
+  </div>
+
+  <section class="block" id="overview">
+    <h2>The big picture</h2>
+    <div class="ladder">
+      <div class="card"><h3>1. Generative AI</h3><p>Creates new content such as text, images, audio, video and code from your prompt.</p></div>
+      <div class="card"><h3>2. AI agent</h3><p>Uses an AI model plus tools to complete a specific task for you, such as checking an order or booking a meeting.</p></div>
+      <div class="card"><h3>3. Agentic AI</h3><p>Pursues a bigger goal on its own: it plans, acts, checks, and adjusts, often with several agents working together.</p></div>
+    </div>
+    <div class="callout"><b>Easy way to remember:</b> Generative AI is a talented writer. An AI agent is an assistant who can also run errands. Agentic AI is a project manager who plans the whole project and keeps going until it is done. Each level is built on top of the one before it.</div>
+  </section>
+
+  <!-- GEN AI -->
+  <section class="block" id="genai">
+    <h2>Generative AI</h2>
+    <p class="lead">Generative AI is AI that produces new content instead of only analysing existing data. You give it a prompt, and it generates a response. It answers one request at a time and does not act in the outside world by itself.</p>
+
+    <h3 class="sub">How it works</h3>
+    <ol class="seq">
+      <li><b>Train on huge amounts of data</b><span>A model reads enormous collections of text, images, audio or code. It does not store them like a database. It learns the patterns inside them.</span></li>
+      <li><b>Learn the patterns</b><span>A language model learns which tokens are likely to follow other tokens. An image model learns how shapes, colours and styles relate to descriptions.</span></li>
+      <li><b>Generate from your prompt</b><span>A language model writes one token at a time, each time predicting the most likely next one. Many image models (diffusion models) start from random noise and remove the noise step by step until a picture that matches your text appears.</span></li>
+    </ol>
+
+    <h3 class="sub">What it can create</h3>
+    <div class="grid g3">
+      <div class="card"><h3>Text</h3><p>Essays, summaries, emails, explanations, translations and stories.</p><div class="ex"><b>Examples</b>ChatGPT, Claude, Gemini</div></div>
+      <div class="card"><h3>Images</h3><p>Photos, illustrations, posters and logos from a written description.</p><div class="ex"><b>Examples</b>Midjourney, DALL·E, Adobe Firefly</div></div>
+      <div class="card"><h3>Audio and music</h3><p>Natural voices, voice dubbing, sound effects and full songs.</p><div class="ex"><b>Examples</b>ElevenLabs, Suno, Udio</div></div>
+      <div class="card"><h3>Video</h3><p>Short clips from text, AI presenters and translated videos.</p><div class="ex"><b>Examples</b>Sora, Runway, Veo</div></div>
+      <div class="card"><h3>Code</h3><p>Functions, whole apps, bug explanations and test cases.</p><div class="ex"><b>Examples</b>GitHub Copilot, Cursor</div></div>
+    </div>
+
+    <h3 class="sub">Strengths and limits</h3>
+    <div class="grid g2">
+      <div class="card"><h3>Strengths</h3><ul>
+        <li>Very fast first drafts of almost any content</li>
+        <li>Explains difficult topics in simple language</li>
+        <li>Works across text, images, audio and code</li>
+        <li>Available to anyone through simple chat tools</li>
+      </ul></div>
+      <div class="card"><h3>Limits</h3><ul>
+        <li>Can make up facts (hallucinations)</li>
+        <li>Can repeat biases from its training data</li>
+        <li>Only knows what it was trained on unless it has search</li>
+        <li>Does not take actions in apps or the real world by itself</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- AGENTS -->
+  <section class="block" id="agents">
+    <h2>AI agents</h2>
+    <p class="lead">An AI agent is a system built around an AI model that can use tools to complete a task. Where a plain chatbot only replies with text, an agent can also do things: search the web, read a database, run code, send an email or update a calendar.</p>
+
+    <h3 class="sub">The four parts of an agent</h3>
+    <div class="grid g2">
+      <div class="card"><h3>Model (the brain)</h3><p>A language model that understands the request, decides what to do next and writes the result.</p></div>
+      <div class="card"><h3>Tools (the hands)</h3><p>Functions the agent is allowed to call: web search, calculator, email, calendar, code runner, company database.</p></div>
+      <div class="card"><h3>Memory</h3><p>Short-term memory holds the current task and results so far. Some agents also keep long-term notes such as your preferences.</p></div>
+      <div class="card"><h3>Instructions and goal</h3><p>The task from the user and the rules from the developer, such as what the agent may and may not do.</p></div>
+    </div>
+
+    <h3 class="sub">Example: a customer support agent</h3>
+    <ol class="seq">
+      <li><b>Understand the request</b><span>The customer writes: "Where is my order 4821?"</span></li>
+      <li><b>Choose and call a tool</b><span>The agent calls the order database tool with the order number.</span></li>
+      <li><b>Read the result</b><span>The tool returns: shipped yesterday, arriving Friday.</span></li>
+      <li><b>Reply and offer more help</b><span>The agent tells the customer the delivery date and offers to send a tracking link.</span></li>
+    </ol>
+
+    <h3 class="sub">More real examples</h3>
+    <div class="grid g3">
+      <div class="card"><h3>Coding agent</h3><p>Reads your project files, runs the tests, finds a failing test and edits the code to fix it.</p></div>
+      <div class="card"><h3>Scheduling agent</h3><p>Checks calendars, finds a free time for everyone and sends the meeting invite.</p></div>
+      <div class="card"><h3>Research agent</h3><p>Searches many web pages, collects the important facts and writes a summary with sources.</p></div>
+    </div>
+    <div class="callout"><b>Limits:</b> An agent can pick the wrong tool or misread a result. That is why agents are usually given limited permissions and a defined task.</div>
+  </section>
+
+  <!-- AGENTIC -->
+  <section class="block" id="agentic">
+    <h2>Agentic AI</h2>
+    <p class="lead">Agentic AI describes systems that work toward a larger goal with a high degree of independence. Instead of following one task, they break a goal into sub-goals, decide the steps, use tools, check their own results and change the plan when something goes wrong. Often several specialised agents work together.</p>
+
+    <h3 class="sub">What makes a system agentic</h3>
+    <div class="grid g3">
+      <div class="card"><h3>Goal-driven</h3><p>You give an outcome ("prepare my trip"), not step-by-step instructions.</p></div>
+      <div class="card"><h3>Multi-step planning</h3><p>It creates a plan and orders the steps itself.</p></div>
+      <div class="card"><h3>Teamwork</h3><p>A planner agent can hand parts of the work to specialist agents.</p></div>
+      <div class="card"><h3>Self-correction</h3><p>It checks results and retries or re-plans if a step fails.</p></div>
+      <div class="card"><h3>Long-running</h3><p>It can keep working, or keep watching for changes, over minutes, hours or days.</p></div>
+      <div class="card"><h3>Human in the loop</h3><p>It asks for approval before risky steps such as payments.</p></div>
+    </div>
+
+    <h3 class="sub">Example: an agentic trip planner</h3>
+    <ol class="seq">
+      <li><b>Goal</b><span>You say: "Plan a 3-day trip to Chennai under 8,000 rupees for me and a friend."</span></li>
+      <li><b>Plan</b><span>A planner agent splits the goal into transport, stay, food and budget.</span></li>
+      <li><b>Specialist work</b><span>Separate agents search trains, compare hotels and suggest places to visit.</span></li>
+      <li><b>Check</b><span>A checking agent adds up the cost. It is over budget, so the plan is adjusted to a cheaper hotel.</span></li>
+      <li><b>Monitor</b><span>After booking, the system watches for delays. If the train is cancelled, it finds another option.</span></li>
+      <li><b>Human approval</b><span>Before any payment is made, it asks you to confirm.</span></li>
+    </ol>
+
+    <h3 class="sub">The autonomy scale</h3>
+    <div class="grid g2">
+      <div class="card"><h3>Chatbot</h3><p>Answers questions. You do everything else.</p></div>
+      <div class="card"><h3>Assistant with tools</h3><p>Can look things up or run one action when you ask.</p></div>
+      <div class="card"><h3>AI agent</h3><p>Completes a defined task using several tool calls.</p></div>
+      <div class="card"><h3>Agentic system</h3><p>Plans, acts, checks and adapts across many steps to reach a goal.</p></div>
+    </div>
+
+    <h3 class="sub">Risks and safeguards</h3>
+    <div class="grid g2">
+      <div class="card"><h3>Risks</h3><ul>
+        <li>A small early mistake can grow through many steps</li>
+        <li>Wrong actions can cost money or send wrong messages</li>
+        <li>Agents that read web pages can be tricked by hidden instructions (prompt injection)</li>
+      </ul></div>
+      <div class="card"><h3>Safeguards</h3><ul>
+        <li>Human approval for important actions</li>
+        <li>Limited permissions for each tool</li>
+        <li>Logs of every step so people can review</li>
+        <li>A stop button and thorough testing</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- LOOP -->
+  <section class="block" id="loop">
+    <h2>Try it: the agent loop</h2>
+    <p class="lead">An agent repeats a loop until the goal is done. Click each step, or press Next, to see what happens.</p>
+    <div class="lab">
+      <div class="goal">Goal: "Book the cheapest train to Chennai for Friday."</div>
+      <div class="steps" id="steps"></div>
+      <div class="stepbox" id="stepbox" aria-live="polite"></div>
+      <div style="margin-top:12px"><button class="btn" id="nextStep" type="button">Next step</button></div>
+    </div>
+  </section>
+
+  <!-- TABLE -->
+  <section class="block" id="table">
+    <h2>Difference table</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Generative AI</th><th>AI agent</th><th>Agentic AI</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Main job</th><td>Create content</td><td>Complete a specific task</td><td>Achieve a bigger goal end to end</td></tr>
+          <tr><th scope="row">Who decides the next step?</th><td>You, with every prompt</td><td>The agent, inside a set workflow</td><td>The system itself, including re-planning</td></tr>
+          <tr><th scope="row">Autonomy</th><td>Low</td><td>Medium</td><td>High</td></tr>
+          <tr><th scope="row">Uses tools?</th><td>Usually not, it only generates</td><td>Yes (search, APIs, apps)</td><td>Yes, many tools, often many agents</td></tr>
+          <tr><th scope="row">Planning</th><td>None or very little</td><td>Short, task-level plan</td><td>Multi-step planning and re-planning</td></tr>
+          <tr><th scope="row">Memory</th><td>Only the current chat</td><td>Task memory, sometimes saved</td><td>Long-term memory, learns from results</td></tr>
+          <tr><th scope="row">Typical output</th><td>Text, image, audio, video or code</td><td>An action done in an app plus a report</td><td>A completed multi-step outcome</td></tr>
+          <tr><th scope="row">Human input</th><td>At every step</td><td>At the start and some checks</td><td>Mostly at the start and final approval</td></tr>
+          <tr><th scope="row">Main risk</th><td>Wrong or made-up content</td><td>A wrong action in one task</td><td>Errors that grow across many steps</td></tr>
+          <tr><th scope="row">Examples</th><td>ChatGPT, DALL·E, Suno</td><td>Support bot, coding assistant with tools</td><td>Deep research agents, multi-agent coding teams</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- EXAMPLES -->
+  <section class="block" id="examples">
+    <h2>Same field, three levels</h2>
+    <p class="lead">Here is how the three levels look in everyday areas.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Area</th><th>Generative AI</th><th>AI agent</th><th>Agentic AI</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Education</th><td>Explains photosynthesis in simple words</td><td>Checks your timetable and sets study reminders</td><td>Builds a weekly study plan, quizzes you and adjusts the plan from your scores</td></tr>
+          <tr><th scope="row">Coding</th><td>Writes a function when you ask</td><td>Reads your project, runs tests and fixes one bug</td><td>Plans a feature, splits work across agents, writes and tests it, then opens it for your review</td></tr>
+          <tr><th scope="row">Business</th><td>Drafts a marketing email</td><td>Looks up a customer record and sends a reply</td><td>Runs a campaign: studies the audience, drafts, schedules, tracks results and improves</td></tr>
+          <tr><th scope="row">Daily life</th><td>Suggests a holiday itinerary</td><td>Books a train ticket</td><td>Plans the whole trip, books it, watches delays and rebooks if needed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="block" id="quiz">
+    <h2>Quiz: which one is it?</h2>
+    <p class="lead">Read each situation and pick Generative AI, AI agent or Agentic AI.</p>
+    <div class="lab" id="quizbox"></div>
+  </section>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+const loop=[
+  ['1. Understand','The agent reads the goal and breaks it into smaller tasks: find trains, compare prices, pick one, book it.'],
+  ['2. Plan','It decides the order of work and which tools to use: a train search tool first, then a payment tool.'],
+  ['3. Act','It calls the tools. It searches the train site, reads the results and selects the cheapest Friday train.'],
+  ['4. Check','It checks the result. Was the ticket booked? If the train is full, it goes back to Plan and tries another option.']
+];
+let stepI=0;
+loop.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.type='button';b.textContent=s[0];
+  b.addEventListener('click',()=>{stepI=i;renderStep();});
+  $('#steps').appendChild(b);
+});
+function renderStep(){
+  $$('#steps button').forEach((b,i)=>b.classList.toggle('on',i===stepI));
+  $('#stepbox').innerHTML='<b></b><span></span>';
+  $('#stepbox b').textContent=loop[stepI][0];
+  $('#stepbox span').textContent=loop[stepI][1];
+}
+$('#nextStep').addEventListener('click',()=>{stepI=(stepI+1)%loop.length;renderStep();});
+renderStep();
+
+const qs=[
+  ['You ask an AI to write a 4-line poem about rain, and it writes it.',0,'It only creates content from your prompt. That is Generative AI.'],
+  ['A bot reads your order number, checks a database, and tells you where your parcel is.',1,'It uses a tool (a database) to finish one task. That is an AI agent.'],
+  ['You say "Launch my product". The system researches, builds, tests, fixes bugs and plans the next steps using several agents.',2,'It pursues a big goal, plans and adapts by itself. That is Agentic AI.'],
+  ['An AI makes a poster image from a text description.',0,'Creating new content from a prompt is Generative AI.'],
+  ['An assistant reads your calendar and books a meeting at a free time.',1,'It uses a tool to complete a specific task. That is an AI agent.'],
+  ['A system watches your flight, sees a delay, rebooks another flight, updates your hotel and messages you, without being asked at each step.',2,'It works on its own toward a goal and adjusts. That is Agentic AI.']
+];
+const labels=['Generative AI','AI agent','Agentic AI'];
+let qi=0,score=0,answered=false;
+const quiz=$('#quizbox');
+function renderQuiz(){
+  quiz.innerHTML='';
+  if(qi>=qs.length){
+    const msg=score>=5?'Excellent work.':score>=3?'Good. Review the difference table once more.':'Read the difference table again and retry.';
+    quiz.innerHTML='<div class="qtext">Your score: '+score+' / '+qs.length+'</div><p>'+msg+'</p><div style="margin-top:14px"><button class="btn" type="button" id="again">Try again</button></div>';
+    $('#again').addEventListener('click',()=>{qi=0;score=0;renderQuiz();});
+    return;
+  }
+  answered=false;
+  const [q,ans,why]=qs[qi];
+  quiz.innerHTML='<div class="meta"><span>Question '+(qi+1)+' of '+qs.length+'</span><span class="sc">Score: '+score+'</span></div><div class="qtext"></div><div class="opts"></div><div class="fb" aria-live="polite"></div><div style="margin-top:12px"><button class="btn" type="button" id="nq" hidden>Next question</button></div>';
+  quiz.querySelector('.qtext').textContent=q;
+  const opts=quiz.querySelector('.opts');
+  labels.forEach((l,i)=>{
+    const b=document.createElement('button');
+    b.type='button';b.textContent=l;
+    b.addEventListener('click',()=>{
+      if(answered)return;answered=true;
+      opts.querySelectorAll('button').forEach((x,j)=>{x.disabled=true;if(j===ans)x.classList.add('right');});
+      if(i===ans){score++;quiz.querySelector('.fb').textContent='Correct. '+why;}
+      else{b.classList.add('wrong');quiz.querySelector('.fb').textContent='Not quite. '+why;}
+      quiz.querySelector('.sc').textContent='Score: '+score;
+      const nq=$('#nq');nq.hidden=false;
+      nq.textContent=qi===qs.length-1?'See score':'Next question';
+    });
+    opts.appendChild(b);
+  });
+  $('#nq').addEventListener('click',()=>{qi++;renderQuiz();});
+}
+renderQuiz();
+</script>
+</body>
+</html>

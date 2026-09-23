@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt engineering | AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="prompts">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero one">
+    <div>
+      <h1>Prompt engineering</h1>
+      <p>A prompt is the instruction you give to an AI. The clearer your prompt, the better the answer. This page teaches the parts of a good prompt, the main prompting techniques with examples, and lets you build your own prompt.</p>
+    </div>
+  </div>
+
+  <div class="toc"><b>On this page:</b>
+    <a href="#anatomy">Parts of a prompt</a>
+    <a href="#compare">Weak vs strong</a>
+    <a href="#techniques">Techniques</a>
+    <a href="#builder">Prompt builder</a>
+    <a href="#mistakes">Common mistakes</a>
+    <a href="#tips">Tips</a>
+  </div>
+
+  <section class="block" id="anatomy">
+    <h2>The parts of a good prompt</h2>
+    <p class="lead">A strong prompt usually has five parts. You do not need all five every time, but the more you include, the less the AI has to guess.</p>
+    <div class="grid g3">
+      <div class="card"><h3>Role</h3><p>Who the AI should act as. It sets the style and depth of the answer.</p><div class="ex"><b>Example</b>"Act as a friendly computer science tutor."</div></div>
+      <div class="card"><h3>Task</h3><p>What exactly you want it to do. Use a clear action word.</p><div class="ex"><b>Example</b>"Explain how neural networks learn."</div></div>
+      <div class="card"><h3>Context</h3><p>Background the AI cannot know: who you are, your level, your goal.</p><div class="ex"><b>Example</b>"I am a first-year B.Tech student."</div></div>
+      <div class="card"><h3>Format</h3><p>How the answer should look: bullets, table, steps, word count.</p><div class="ex"><b>Example</b>"Give 5 bullet points and one example."</div></div>
+      <div class="card"><h3>Limits</h3><p>Rules and boundaries: length, tone, things to avoid.</p><div class="ex"><b>Example</b>"Under 150 words, simple English, no jargon."</div></div>
+    </div>
+  </section>
+
+  <section class="block" id="compare">
+    <h2>Weak prompt vs strong prompt</h2>
+    <p class="lead">Pick an example to see the difference.</p>
+    <div class="filters" id="exTabs"></div>
+    <div class="grid g2">
+      <div class="card badbox"><h3>Weak prompt</h3><p id="exBad"></p></div>
+      <div class="card goodbox"><h3>Strong prompt</h3><p id="exGood"></p></div>
+    </div>
+    <div class="callout" id="exWhy"></div>
+  </section>
+
+  <section class="block" id="techniques">
+    <h2>Prompting techniques</h2>
+    <p class="lead">These are common ways to get better results. Open each one to see what it is and an example.</p>
+    <details open>
+      <summary>Zero-shot prompting</summary>
+      <div>You ask directly with no examples. This works well for simple, common tasks.
+        <div class="pbox">Translate this sentence into Hindi: "The exam is on Monday."</div>
+      </div>
+    </details>
+    <details>
+      <summary>Few-shot prompting</summary>
+      <div>You show one or more examples of the input and output you want, so the AI copies the pattern. Very useful for a special format or style.
+        <div class="pbox">Turn each sentence into a short headline.
+Sentence: The college will open a new library next month.
+Headline: New Library Opens Next Month
+Sentence: Students can now submit assignments online.
+Headline:</div>
+      </div>
+    </details>
+    <details>
+      <summary>Chain-of-thought (step by step)</summary>
+      <div>You ask the AI to work through the problem in steps before giving the final answer. This helps with maths, logic and planning, and lets you check the reasoning. Some newer models do this internally, but asking for steps is still useful when you want to verify the answer.
+        <div class="pbox">A train travels 180 km in 3 hours. How long will it take to travel 300 km at the same speed? Solve step by step, then give the final answer on its own line.</div>
+      </div>
+    </details>
+    <details>
+      <summary>Role prompting</summary>
+      <div>You give the AI a role so it answers with the right vocabulary and viewpoint.
+        <div class="pbox">Act as an interviewer for a junior web developer job. Ask me one question at a time and give feedback after each answer.</div>
+      </div>
+    </details>
+    <details>
+      <summary>Iterative refinement</summary>
+      <div>Your first prompt is a draft. Follow up to improve the result instead of starting over.
+        <div class="pbox">Make it shorter.
+Now add a real-life example.
+Rewrite it for a Class 8 student.</div>
+      </div>
+    </details>
+    <details>
+      <summary>Prompt chaining</summary>
+      <div>You split a big job into smaller prompts, using each answer as the input for the next.
+        <div class="pbox">Prompt 1: List 5 project ideas about AI for students.
+Prompt 2: Pick idea 3 and create a project outline.
+Prompt 3: Write a one-page introduction from the outline.</div>
+      </div>
+    </details>
+  </section>
+
+  <section class="block" id="builder">
+    <h2>Try it: prompt builder</h2>
+    <p class="lead">Fill in the boxes and get a well-structured prompt that you can copy into any AI tool.</p>
+    <div class="lab">
+      <div class="grid g2">
+        <div><label for="pbRole">Role</label><input type="text" id="pbRole" placeholder="a friendly computer science tutor"></div>
+        <div><label for="pbTask">Task</label><input type="text" id="pbTask" placeholder="explain how neural networks learn"></div>
+        <div><label for="pbCtx">Context</label><input type="text" id="pbCtx" placeholder="I am a first-year B.Tech student"></div>
+        <div><label for="pbFmt">Format</label><input type="text" id="pbFmt" placeholder="5 bullet points and one example"></div>
+      </div>
+      <label for="pbCon" style="margin-top:12px">Limits (optional)</label>
+      <input type="text" id="pbCon" placeholder="under 150 words, simple English">
+      <div class="meter" style="margin-top:14px"><div class="meterfill" id="pbMeter"></div></div>
+      <p id="pbScore" class="note" style="margin-top:6px"></p>
+      <div class="pbox" id="pbOut">Fill in at least one box to see your prompt.</div>
+      <div style="margin-top:10px"><button class="btn" type="button" id="pbCopy">Copy prompt</button> <span id="pbMsg" class="note"></span></div>
+    </div>
+  </section>
+
+  <section class="block" id="mistakes">
+    <h2>Common mistakes</h2>
+    <div class="grid g2">
+      <div class="card"><h3>Being too vague</h3><p>"Tell me about AI" gives a generic answer. Say what part, for whom and how long.</p></div>
+      <div class="card"><h3>Asking too many things at once</h3><p>A prompt with ten different tasks gets a messy answer. Split it into steps.</p></div>
+      <div class="card"><h3>Not giving context</h3><p>The AI does not know your level, your course or your goal unless you say so.</p></div>
+      <div class="card"><h3>Trusting the first answer</h3><p>Always check facts, numbers and code. Ask the AI to show its sources or reasoning.</p></div>
+      <div class="card"><h3>Sharing private data</h3><p>Never put passwords, ID numbers or other people's personal details in a prompt.</p></div>
+      <div class="card"><h3>Giving up after one try</h3><p>Follow-up prompts like "make it simpler" usually fix the problem.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="tips">
+    <h2>Quick tips</h2>
+    <div class="grid g3">
+      <div class="card"><h3>Be specific</h3><p>Say exactly what you want, for whom, and how long.</p></div>
+      <div class="card"><h3>Show an example</h3><p>Paste a sample of the style you want.</p></div>
+      <div class="card"><h3>Ask for a format</h3><p>Tables, bullet points and steps are easier to scan.</p></div>
+      <div class="card"><h3>Ask the AI to ask you</h3><p>"Ask me questions first if you need more information."</p></div>
+      <div class="card"><h3>Set the audience</h3><p>"Explain for a Class 10 student" changes the whole answer.</p></div>
+      <div class="card"><h3>Verify</h3><p>Treat the answer as a first draft and check it.</p></div>
+    </div>
+  </section>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+const examples=[
+  ['Study help','Explain photosynthesis.',
+   'Act as a biology teacher. Explain photosynthesis to a Class 10 student in simple words.\nUse one everyday example and end with 3 quick quiz questions.',
+   'The strong prompt gives a role, the audience level, a format and an extra task. The AI knows exactly what to produce.'],
+  ['Coding','Write code for a login page.',
+   'Write a login page using HTML, CSS and JavaScript.\nInclude email and password fields, basic validation, and comments explaining each part.\nKeep it under 80 lines.',
+   'The strong prompt names the languages, features and length. Vague prompts get random results.'],
+  ['Writing','Write an email to my professor.',
+   'Write a polite email to my professor asking for a 2-day extension on my CSP project because I was ill.\nKeep it under 100 words and use a respectful tone.',
+   'The strong prompt includes purpose, reason, length and tone, so the email is nearly ready to send.'],
+  ['Summary','Summarize this.',
+   'Summarize the text below in 5 bullet points for a college student.\nHighlight any dates and numbers.\n\n[paste text here]',
+   'The strong prompt tells the AI who the summary is for, how long it should be and what to focus on.']
+];
+let exI=0;
+examples.forEach((e,i)=>{
+  const b=document.createElement('button');
+  b.type='button';b.textContent=e[0];
+  b.addEventListener('click',()=>{exI=i;renderEx();});
+  $('#exTabs').appendChild(b);
+});
+function renderEx(){
+  $$('#exTabs button').forEach((b,i)=>b.classList.toggle('on',i===exI));
+  $('#exBad').textContent=examples[exI][1];
+  $('#exGood').textContent=examples[exI][2];
+  $('#exWhy').textContent='Why it works: '+examples[exI][3];
+}
+renderEx();
+
+const pbIds=['pbRole','pbTask','pbCtx','pbFmt','pbCon'];
+function buildPrompt(){
+  const v=id=>$('#'+id).value.trim();
+  const lines=[];
+  if(v('pbRole'))lines.push('Act as '+v('pbRole')+'.');
+  if(v('pbTask'))lines.push('Task: '+v('pbTask')+'.');
+  if(v('pbCtx'))lines.push('Context: '+v('pbCtx')+'.');
+  if(v('pbFmt'))lines.push('Format: '+v('pbFmt')+'.');
+  if(v('pbCon'))lines.push('Limits: '+v('pbCon')+'.');
+  const n=lines.length;
+  $('#pbOut').textContent=n?lines.join('\n'):'Fill in at least one box to see your prompt.';
+  $('#pbMeter').style.width=(n/5*100)+'%';
+  $('#pbScore').textContent='Prompt strength: '+n+' of 5 parts filled'+(n===5?'. Great prompt!':'');
+}
+pbIds.forEach(id=>$('#'+id).addEventListener('input',buildPrompt));
+buildPrompt();
+$('#pbCopy').addEventListener('click',async()=>{
+  const text=$('#pbOut').textContent;
+  try{await navigator.clipboard.writeText(text);$('#pbMsg').textContent='Copied.';}
+  catch(e){
+    const r=document.createRange();r.selectNodeContents($('#pbOut'));
+    const s=getSelection();s.removeAllRanges();s.addRange(r);
+    $('#pbMsg').textContent='Text selected. Press Ctrl+C to copy.';
+  }
+});
+</script>
+</body>
+</html>

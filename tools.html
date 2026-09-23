@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Best AI tools of 2025 | AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="tools">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero one">
+    <div>
+      <h1>Best AI tools of 2025</h1>
+      <p>32 popular AI tools grouped by what they do: chat and writing, coding, images and design, video, audio and music, and research. Search, filter, save favourites with the star, and press Open app to go straight to the tool.</p>
+    </div>
+  </div>
+
+  <div class="toc"><b>On this page:</b>
+    <a href="#browse">Browse all tools</a>
+    <a href="#persona">Best tools for you</a>
+    <a href="#compare">Compare two tools</a>
+    <a href="#choose">How to choose</a>
+  </div>
+
+  <section class="block" id="browse">
+    <h2>Browse all tools</h2>
+    <div class="controls">
+      <input type="search" id="q" placeholder="Search tools, e.g. video, code, Google" aria-label="Search tools">
+      <select id="priceSel" aria-label="Filter by price">
+        <option value="all">Any price</option>
+        <option value="Free">Free</option>
+        <option value="Freemium">Freemium (free plan + paid)</option>
+        <option value="Paid">Paid</option>
+      </select>
+      <select id="sortSel" aria-label="Sort tools">
+        <option value="default">Default order</option>
+        <option value="az">Name A to Z</option>
+        <option value="za">Name Z to A</option>
+      </select>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+    <p class="count" id="count"></p>
+    <div class="grid g3" id="toolGrid" style="margin-top:12px"></div>
+    <p class="note">Pricing and features change often. Free means fully free to use, Freemium means a free plan with paid upgrades, Paid means a subscription is needed. Check each website for current details.</p>
+  </section>
+
+  <section class="block" id="persona">
+    <h2>Best tools for you</h2>
+    <p class="lead">Pick who you are and see the tools that suit you most.</p>
+    <div class="filters" id="personaTabs" role="group" aria-label="Choose user type"></div>
+    <div class="grid g3" id="personaOut"></div>
+  </section>
+
+  <section class="block" id="compare">
+    <h2>Compare two tools</h2>
+    <p class="lead">Choose any two tools to see them side by side.</p>
+    <div class="lab">
+      <div class="controls two">
+        <div><label for="cmpA">Tool 1</label><select id="cmpA"></select></div>
+        <div><label for="cmpB">Tool 2</label><select id="cmpB"></select></div>
+      </div>
+      <div class="tablewrap" style="margin-top:16px">
+        <table class="cmp" id="cmpTable"></table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="choose">
+    <h2>How to choose the right tool</h2>
+    <div class="grid g2">
+      <div class="card"><h3>Start with the task</h3><p>Decide what you need first: writing, code, a picture, a video or research. Then pick from that category instead of trying every tool.</p></div>
+      <div class="card"><h3>Try the free plan</h3><p>Most tools have a free plan with limits. Test with a real task from your own work before paying for anything.</p></div>
+      <div class="card"><h3>Check privacy</h3><p>Read what the tool does with your data. Do not upload private or confidential files to a tool you do not trust.</p></div>
+      <div class="card"><h3>Compare two tools</h3><p>Give the same prompt to two tools and compare the results. Keep the one that gives clearer and more accurate answers for you.</p></div>
+    </div>
+  </section>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+const cats={all:'All',fav:'Favorites',w:'Chat & Writing',c:'Coding',i:'Image & Design',v:'Video',a:'Audio & Music',r:'Research & Productivity'};
+const catNames={w:'Chat & Writing',c:'Coding',i:'Image & Design',v:'Video',a:'Audio & Music',r:'Research & Productivity'};
+/* [category, name, maker, description, url, price] */
+const tools=[
+  ['w','ChatGPT','OpenAI','All-round assistant for writing, study help, brainstorming, data analysis and image creation.','https://chatgpt.com','Freemium'],
+  ['w','Claude','Anthropic','Strong at long documents, careful writing and coding help. Can read large files.','https://claude.ai','Freemium'],
+  ['w','Gemini','Google','Multimodal assistant that works with Google apps like Gmail, Docs and Drive.','https://gemini.google.com','Freemium'],
+  ['w','Microsoft Copilot','Microsoft','AI built into Word, Excel, PowerPoint, Edge and Windows for everyday work.','https://copilot.microsoft.com','Freemium'],
+  ['w','Grammarly','Grammarly','Checks grammar, tone and clarity, and rewrites sentences as you type.','https://www.grammarly.com','Freemium'],
+  ['w','Notion AI','Notion','Summarises notes, drafts pages and answers questions from your own workspace.','https://www.notion.com/product/ai','Paid'],
+  ['c','GitHub Copilot','GitHub / Microsoft','Suggests code and explains it directly inside VS Code and other editors.','https://github.com/features/copilot','Freemium'],
+  ['c','Cursor','Anysphere','AI-first code editor that can change multiple files from one prompt.','https://cursor.com','Freemium'],
+  ['c','Claude Code','Anthropic','Coding agent that works in your terminal on real projects.','https://claude.com/product/claude-code','Paid'],
+  ['c','Windsurf','Codeium','AI code editor with an agent that understands your whole codebase.','https://windsurf.com','Freemium'],
+  ['c','Replit Agent','Replit','Builds and deploys an app in the browser from a plain-English description.','https://replit.com','Freemium'],
+  ['c','Lovable','Lovable','Turns a text prompt into a working web app you can edit and publish.','https://lovable.dev','Freemium'],
+  ['c','v0','Vercel','Generates website pages and UI components from prompts.','https://v0.dev','Freemium'],
+  ['i','Midjourney','Midjourney','High-quality artistic images from text prompts.','https://www.midjourney.com','Paid'],
+  ['i','DALL·E / ChatGPT Images','OpenAI','Creates and edits images inside a ChatGPT conversation.','https://chatgpt.com','Freemium'],
+  ['i','Adobe Firefly','Adobe','Image generation built into Photoshop and Illustrator, trained on licensed content.','https://firefly.adobe.com','Freemium'],
+  ['i','Canva Magic Studio','Canva','Design, presentations and image editing with AI help, good for beginners.','https://www.canva.com','Freemium'],
+  ['i','Leonardo AI','Leonardo','Game art, concept art and product images with fine control over style.','https://leonardo.ai','Freemium'],
+  ['i','Ideogram','Ideogram','Makes images with clear, accurate text, useful for posters and logos.','https://ideogram.ai','Freemium'],
+  ['v','Sora','OpenAI','Creates short videos from text descriptions.','https://sora.com','Paid'],
+  ['v','Runway','Runway','Video generation and editing tools used by creators and studios.','https://runwayml.com','Freemium'],
+  ['v','Veo','Google DeepMind','Text-to-video model that can also generate matching sound.','https://deepmind.google/models/veo/','Paid'],
+  ['v','HeyGen','HeyGen','AI avatars and video translation with matching lip movement.','https://www.heygen.com','Freemium'],
+  ['v','Synthesia','Synthesia','Makes training and business videos with AI presenters.','https://www.synthesia.io','Freemium'],
+  ['a','ElevenLabs','ElevenLabs','Realistic voice generation, voice cloning and dubbing into many languages.','https://elevenlabs.io','Freemium'],
+  ['a','Suno','Suno','Creates full songs with vocals from a text prompt.','https://suno.com','Freemium'],
+  ['a','Udio','Udio','Music generation with detailed control over style.','https://www.udio.com','Freemium'],
+  ['a','Descript','Descript','Edit audio and video by editing the written transcript.','https://www.descript.com','Freemium'],
+  ['r','Perplexity','Perplexity AI','Answer engine that searches the web and shows its sources.','https://www.perplexity.ai','Freemium'],
+  ['r','NotebookLM','Google','Upload notes or PDFs and chat with them, or turn them into audio overviews.','https://notebooklm.google.com','Free'],
+  ['r','Gamma','Gamma','Generates slide decks and documents from a short prompt.','https://gamma.app','Freemium'],
+  ['r','Otter.ai','Otter','Records meetings and lectures and writes summaries.','https://otter.ai','Freemium']
+];
+const tagClass={w:'w',c:'c',i:'i',v:'v',a:'a',r:''};
+const toolByName=n=>tools.find(t=>t[1]===n);
+
+let favs=[];
+try{favs=JSON.parse(load('favs')||'[]');}catch(e){favs=[];}
+function saveFavs(){store('favs',JSON.stringify(favs));}
+
+const filters=$('#filters'),grid=$('#toolGrid'),qEl=$('#q'),priceSel=$('#priceSel'),sortSel=$('#sortSel');
+let current='all';
+Object.keys(cats).forEach(k=>{
+  const b=document.createElement('button');
+  b.type='button';b.dataset.k=k;
+  b.addEventListener('click',()=>{current=k;renderTools();});
+  filters.appendChild(b);
+});
+
+function renderTools(){
+  $$('#filters button').forEach(b=>{
+    const k=b.dataset.k;
+    const n=k==='all'?tools.length:k==='fav'?favs.length:tools.filter(t=>t[0]===k).length;
+    b.textContent=(k==='fav'?'★ ':'')+cats[k]+' ('+n+')';
+    b.classList.toggle('on',k===current);
+  });
+  const q=qEl.value.trim().toLowerCase();
+  let list=tools.filter(t=>{
+    if(current==='fav'&&!favs.includes(t[1]))return false;
+    if(current!=='all'&&current!=='fav'&&t[0]!==current)return false;
+    if(priceSel.value!=='all'&&t[5]!==priceSel.value)return false;
+    if(q&&!(t[1]+' '+t[2]+' '+t[3]+' '+catNames[t[0]]).toLowerCase().includes(q))return false;
+    return true;
+  });
+  if(sortSel.value==='az')list=[...list].sort((a,b)=>a[1].localeCompare(b[1]));
+  if(sortSel.value==='za')list=[...list].sort((a,b)=>b[1].localeCompare(a[1]));
+  $('#count').textContent=list.length+' of '+tools.length+' tools shown';
+  grid.innerHTML='';
+  if(!list.length){
+    const e=document.createElement('div');e.className='empty';
+    e.textContent=current==='fav'&&!favs.length?'No favorites yet. Press the star on any tool to save it here.':'No tools match your search. Try a different word or filter.';
+    grid.appendChild(e);return;
+  }
+  list.forEach(([c,name,by,desc,url,price])=>{
+    const d=document.createElement('div');
+    d.className='card tool';
+    d.innerHTML='<div class="top"><div><h3><a target="_blank" rel="noopener noreferrer"></a></h3><span class="by"></span></div><button class="star" type="button"></button></div><p></p><div class="row"><span class="tag '+tagClass[c]+'"></span><span class="price"></span></div><div><a class="btn open" target="_blank" rel="noopener noreferrer">Open app</a></div>';
+    const a=d.querySelector('h3 a');a.textContent=name;a.href=url;
+    d.querySelector('.by').textContent=by;
+    d.querySelector('p').textContent=desc;
+    d.querySelector('.tag').textContent=catNames[c];
+    d.querySelector('.price').textContent=price;
+    const o=d.querySelector('.open');o.href=url;o.setAttribute('aria-label','Open '+name+' in a new tab');
+    const s=d.querySelector('.star');
+    const on=favs.includes(name);
+    s.textContent=on?'★':'☆';
+    s.setAttribute('aria-pressed',on);
+    s.setAttribute('aria-label',(on?'Remove ':'Add ')+name+(on?' from':' to')+' favorites');
+    s.addEventListener('click',()=>{
+      favs=favs.includes(name)?favs.filter(f=>f!==name):[...favs,name];
+      saveFavs();renderTools();
+    });
+    grid.appendChild(d);
+  });
+}
+qEl.addEventListener('input',renderTools);
+priceSel.addEventListener('change',renderTools);
+sortSel.addEventListener('change',renderTools);
+renderTools();
+
+/* personas */
+const personas={
+  students:['Students',[
+    ['ChatGPT','Explains topics in simple words and helps plan your study.'],
+    ['NotebookLM','Chat with your own notes and PDFs.'],
+    ['Grammarly','Fixes grammar and tone in assignments.'],
+    ['Perplexity','Finds answers with sources you can check.'],
+    ['Gamma','Makes presentation slides quickly.']]],
+  developers:['Developers',[
+    ['GitHub Copilot','Code suggestions inside VS Code.'],
+    ['Cursor','Edits many files from one prompt.'],
+    ['Claude Code','Terminal agent for real projects.'],
+    ['v0','Turns a prompt into UI components.'],
+    ['Replit Agent','Builds and deploys a full app.']]],
+  creators:['Creators',[
+    ['Midjourney','Beautiful artistic images.'],
+    ['Canva Magic Studio','Quick designs and social posts.'],
+    ['Runway','AI video generation and editing.'],
+    ['ElevenLabs','Natural voiceovers.'],
+    ['Suno','Songs from a text prompt.'],
+    ['Descript','Edit video by editing text.']]],
+  researchers:['Researchers',[
+    ['Perplexity','Web answers with citations.'],
+    ['NotebookLM','Ask questions across your papers.'],
+    ['Claude','Handles long documents well.'],
+    ['Gemini','Works with Google Docs and large files.'],
+    ['Otter.ai','Transcribes interviews and lectures.']]],
+  business:['Small business',[
+    ['Microsoft Copilot','AI inside Word, Excel and Outlook.'],
+    ['Notion AI','Notes, docs and team knowledge in one place.'],
+    ['Synthesia','Training videos with AI presenters.'],
+    ['HeyGen','Product videos in many languages.'],
+    ['Gamma','Fast pitch decks.']]]
+};
+let persona='students';
+Object.keys(personas).forEach(k=>{
+  const b=document.createElement('button');
+  b.type='button';b.dataset.k=k;b.textContent=personas[k][0];
+  b.addEventListener('click',()=>{persona=k;renderPersona();});
+  $('#personaTabs').appendChild(b);
+});
+function renderPersona(){
+  $$('#personaTabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===persona));
+  const out=$('#personaOut');out.innerHTML='';
+  personas[persona][1].forEach(([name,why])=>{
+    const t=toolByName(name);if(!t)return;
+    const d=document.createElement('div');d.className='card tool';
+    d.innerHTML='<h3></h3><p></p><div><a class="btn" target="_blank" rel="noopener noreferrer">Open app</a></div>';
+    d.querySelector('h3').textContent=name;
+    d.querySelector('p').textContent=why;
+    d.querySelector('a').href=t[4];
+    out.appendChild(d);
+  });
+}
+renderPersona();
+
+/* compare */
+const cmpA=$('#cmpA'),cmpB=$('#cmpB');
+tools.forEach(t=>{
+  [cmpA,cmpB].forEach(sel=>{const o=document.createElement('option');o.value=t[1];o.textContent=t[1];sel.appendChild(o);});
+});
+cmpA.value='ChatGPT';cmpB.value='Claude';
+function renderCompare(){
+  const a=toolByName(cmpA.value),b=toolByName(cmpB.value);
+  const rows=[['Maker',t=>t[2]],['Category',t=>catNames[t[0]]],['Price',t=>t[5]],['What it does',t=>t[3]]];
+  const tb=$('#cmpTable');
+  tb.innerHTML='';
+  const head=tb.createTHead().insertRow();
+  ['',a[1],b[1]].forEach(x=>{const th=document.createElement('th');th.textContent=x;head.appendChild(th);});
+  const body=tb.createTBody();
+  rows.forEach(([label,fn])=>{
+    const r=body.insertRow();
+    const th=document.createElement('th');th.scope='row';th.textContent=label;r.appendChild(th);
+    [a,b].forEach(t=>{r.insertCell().textContent=fn(t);});
+  });
+  const r=body.insertRow();
+  const th=document.createElement('th');th.scope='row';th.textContent='Website';r.appendChild(th);
+  [a,b].forEach(t=>{
+    const c=r.insertCell();const l=document.createElement('a');
+    l.href=t[4];l.target='_blank';l.rel='noopener noreferrer';l.className='btn';l.textContent='Open app';c.appendChild(l);
+  });
+}
+cmpA.addEventListener('change',renderCompare);
+cmpB.addEventListener('change',renderCompare);
+renderCompare();
+</script>
+</body>
+</html>

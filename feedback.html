@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedback | AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="feedback">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero one">
+    <div>
+      <h1>Feedback</h1>
+      <p>Tell us what you liked and what can be better. Your feedback helps improve this project.</p>
+    </div>
+  </div>
+  <div class="lab">
+    <form id="fbForm">
+      <div class="grid g2">
+        <div><label for="fbName">Name</label><input type="text" id="fbName" required></div>
+        <div><label for="fbEmail">Email (optional)</label><input type="email" id="fbEmail"></div>
+      </div>
+      <label for="fbRate" style="margin-top:12px">Rating</label>
+      <select id="fbRate">
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Good</option>
+        <option value="3">3 - Okay</option>
+        <option value="2">2 - Needs work</option>
+        <option value="1">1 - Poor</option>
+      </select>
+      <label for="fbMsg" style="margin-top:12px">Your message</label>
+      <textarea id="fbMsg" required placeholder="Write your feedback here"></textarea>
+      <div style="margin-top:12px"><button class="btn" type="submit" id="fbBtn">Send feedback</button></div>
+      <p id="fbStatus" class="note" aria-live="polite"></p>
+    </form>
+  </div>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+/* Option A: paste your Formspree form ID here (example: 'xyzabcde')
+   Option B: leave it empty and feedback opens the user's email app */
+const FORMSPREE_ID='';
+const FEEDBACK_EMAIL='your-email@example.com';
+
+$('#fbForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const name=$('#fbName').value.trim(),email=$('#fbEmail').value.trim();
+  const rate=$('#fbRate').value,msg=$('#fbMsg').value.trim();
+  const st=$('#fbStatus');
+  if(!name||!msg){st.textContent='Please enter your name and message.';return;}
+  if(FORMSPREE_ID){
+    $('#fbBtn').disabled=true;st.textContent='Sending...';
+    try{
+      const r=await fetch('https://formspree.io/f/'+FORMSPREE_ID,{
+        method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},
+        body:JSON.stringify({name,email,rating:rate,message:msg})
+      });
+      if(!r.ok)throw new Error('fail');
+      st.textContent='Thank you! Your feedback was sent.';
+      $('#fbForm').reset();
+    }catch(err){st.textContent='Could not send. Please try again.';}
+    $('#fbBtn').disabled=false;
+  }else{
+    const body='Name: '+name+'\nEmail: '+email+'\nRating: '+rate+'/5\n\n'+msg;
+    location.href='mailto:'+FEEDBACK_EMAIL+'?subject='+encodeURIComponent('Feedback: AI Explained')+'&body='+encodeURIComponent(body);
+    st.textContent='Your email app should open with the feedback ready to send.';
+  }
+});
+</script>
+</body>
+</html>

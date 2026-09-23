@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="home">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero">
+    <div>
+      <h1>How AI reads: tokens and context windows</h1>
+      <p>AI models don't read words like we do. They read small pieces called tokens, and they can only remember a limited number of them at a time. Understanding these two ideas explains most of how tools like ChatGPT, Claude and Gemini behave.</p>
+    </div>
+    <div class="chips" aria-label="Example of tokenization">
+      <span class="tok t0">Un</span><span class="tok t1">believ</span><span class="tok t2">able</span><span class="tok t3">!</span>
+      <span class="tok t0"> AI</span><span class="tok t1"> reads</span><span class="tok t2"> in</span><span class="tok t3"> tokens</span><span class="tok t0">.</span>
+      <small>Each coloured piece is one token. This sentence is about 10 tokens.</small>
+    </div>
+  </div>
+
+  <!-- WHAT YOU WILL LEARN -->
+  <section class="block" id="learn-more" style="margin-top:8px">
+    <h2>What you will learn on this site</h2>
+    <p class="lead">This page covers tokens and context windows. The rest of the site goes deep on one AI topic per page, including a page that lists and explains 30+ popular AI tools for writing, coding, images, video, audio and research, each with an Open app button.</p>
+    <div class="grid g4" id="learnGrid"></div>
+  </section>
+
+  <div class="toc" style="margin-top:44px"><b>On this page:</b>
+    <a href="#what">What is a token</a>
+    <a href="#how">How text becomes tokens</a>
+    <a href="#counter">Token counter</a>
+    <a href="#why">Why tokens matter</a>
+    <a href="#context">Context window</a>
+    <a href="#sizes">Window sizes</a>
+    <a href="#fit">Will it fit</a>
+    <a href="#full">When it is full</a>
+    <a href="#tips">Tips</a>
+    <a href="#faq">FAQ</a>
+  </div>
+
+  <!-- WHAT -->
+  <section class="block" id="what">
+    <h2>What is a token?</h2>
+    <p class="lead">A token is the smallest piece of text an AI model reads and writes. It can be a whole word, a part of a word, a number, a space, or a punctuation mark. Models do not see letters or words the way we do. They only see a sequence of tokens.</p>
+    <div class="grid g3">
+      <div class="card"><h3>Common words</h3><p>Short, everyday words are usually one token. "cat", " the" and "AI" are each 1 token, and the space before a word is often part of the token.</p></div>
+      <div class="card"><h3>Long or rare words</h3><p>Longer or rarer words are split into parts. "Unbelievable" may become "Un" + "believ" + "able", which is 3 tokens.</p></div>
+      <div class="card"><h3>Numbers, symbols, code</h3><p>Numbers, punctuation, emojis and code symbols also become tokens. Code and numbers often use more tokens than plain English of the same length.</p></div>
+    </div>
+
+    <h3 class="sub">How big is a token?</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Text</th><th>Approximate tokens (English)</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">1 token</th><td>About 4 characters, or three quarters of a word</td></tr>
+          <tr><th scope="row">1 word</th><td>About 1.3 tokens on average</td></tr>
+          <tr><th scope="row">Short paragraph (75 words)</th><td>About 100 tokens</td></tr>
+          <tr><th scope="row">1 page (500 words)</th><td>About 670 tokens</td></tr>
+          <tr><th scope="row">10-page essay</th><td>About 6,700 tokens</td></tr>
+          <tr><th scope="row">A novel (80,000 words)</th><td>About 107,000 tokens</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">These are rules of thumb for English. Exact numbers depend on the model's tokenizer.</p>
+  </section>
+
+  <!-- HOW -->
+  <section class="block" id="how">
+    <h2>How text becomes tokens</h2>
+    <p class="lead">A program called a tokenizer sits in front of the model. Here is what happens every time you send a message.</p>
+    <ol class="seq">
+      <li><b>Split</b><span>The tokenizer cuts your text into pieces using a fixed list of known pieces, called the vocabulary. Vocabularies usually contain tens of thousands to a couple of hundred thousand pieces.</span></li>
+      <li><b>Convert to numbers</b><span>Every piece has an ID number in the vocabulary. Your sentence becomes a list of numbers, because neural networks work only with numbers.</span></li>
+      <li><b>Predict the next token</b><span>The model reads all the token numbers and predicts the most likely next token. It repeats this again and again, one token at a time, to build the answer.</span></li>
+      <li><b>Convert back to text</b><span>The generated token numbers are turned back into words and shown to you.</span></li>
+    </ol>
+    <div class="pbox">Text:    AI reads tokens
+Pieces:  "AI"  " reads"  " tokens"
+IDs:     [ 1834 ]  [ 9027 ]  [ 4415 ]      (illustrative numbers, not real IDs)</div>
+
+    <h3 class="sub">Where does the vocabulary come from?</h3>
+    <p class="txt">Most tokenizers use a method called <b>byte pair encoding (BPE)</b>. It starts with single characters and looks through a huge amount of text. It finds the pair of neighbouring pieces that appears most often, for example "t" and "h", and merges them into one new piece "th". It repeats this thousands of times. In the end, very common words become single tokens, while rare words are built from smaller parts.</p>
+  </section>
+
+  <!-- COUNTER -->
+  <section class="block" id="counter">
+    <h2>Try it: token counter</h2>
+    <p class="lead">Type any text. This is a simple demo tokenizer to show the idea. Real models use their own tokenizers, so exact counts differ a little. Try the same sentence in English and in Telugu and compare the counts.</p>
+    <div class="lab">
+      <label for="txt">Your text</label>
+      <textarea id="txt">Artificial intelligence is transforming how students learn, write and build projects.</textarea>
+      <div class="out" id="out" aria-live="polite"></div>
+      <div class="stats">
+        <div class="stat"><b id="nTok">0</b><span>tokens</span></div>
+        <div class="stat"><b id="nWord">0</b><span>words</span></div>
+        <div class="stat"><b id="nChar">0</b><span>characters</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="block" id="why">
+    <h2>Why tokens matter</h2>
+    <div class="grid g2">
+      <div class="card"><h3>They set the limits</h3><p>Everything a model can handle at once is measured in tokens, not words or pages. Your prompt, the chat history and the answer all share the same token limit.</p></div>
+      <div class="card"><h3>They decide the cost</h3><p>Companies that offer AI through an API usually charge per token, with separate prices for the tokens you send (input) and the tokens the model writes (output). Longer prompts and answers cost more.</p></div>
+      <div class="card"><h3>They affect speed</h3><p>The model writes one token at a time, so a longer answer takes longer to appear. Very long inputs also take more time to process.</p></div>
+      <div class="card"><h3>They explain odd mistakes</h3><p>Because models see tokens and not individual letters, tasks like counting the letters in a word or spelling backwards can be harder for them than you would expect.</p></div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="block" id="context">
+    <h2>What is a context window?</h2>
+    <p class="lead">The context window is the maximum number of tokens a model can look at in one go. Think of it as the model's desk. Everything it needs to work with must fit on the desk. Once the desk is full, something has to be removed.</p>
+
+    <h3 class="sub">What fills the window?</h3>
+    <p class="txt">The window is not only your latest question. It holds all of these together:</p>
+    <div class="stack" role="img" aria-label="Example split of a context window">
+      <span style="width:10%;background:var(--lav)">Rules</span>
+      <span style="width:35%;background:var(--sky)">Chat history</span>
+      <span style="width:35%;background:var(--sand)">Files you add</span>
+      <span style="width:20%;background:var(--mint)">Reply</span>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="card"><h3>Inputs</h3><ul>
+        <li><b>Hidden rules:</b> instructions from the app maker (the system prompt)</li>
+        <li><b>Chat history:</b> every earlier message from you and the AI</li>
+        <li><b>Files and pasted text:</b> PDFs, documents, code</li>
+        <li><b>Tool results:</b> web pages or data an agent fetched</li>
+      </ul></div>
+      <div class="card"><h3>Output</h3><ul>
+        <li><b>The model's answer</b> also uses tokens from the same window</li>
+        <li>If the input takes almost all of the window, there is little room left for a long answer</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- SIZES -->
+  <section class="block" id="sizes">
+    <h2>How big are context windows?</h2>
+    <p class="lead">Window sizes have grown very fast. Here is what typical sizes mean in real text (500 words per page). Exact limits differ from model to model and keep changing, so check the tool you use.</p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Window</th><th>About how much text</th><th>Enough for</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">8K tokens</th><td>6,000 words, about 12 pages</td><td>Short chats and small documents (older or small models)</td></tr>
+          <tr><th scope="row">32K tokens</th><td>24,000 words, about 48 pages</td><td>A long article or a research paper with discussion</td></tr>
+          <tr><th scope="row">128K tokens</th><td>96,000 words, about 190 pages</td><td>A full novel or a large report (common in modern models)</td></tr>
+          <tr><th scope="row">200K tokens</th><td>150,000 words, about 300 pages</td><td>Several long documents or a medium codebase</td></tr>
+          <tr><th scope="row">1M tokens</th><td>750,000 words, about 1,500 pages</td><td>A whole book series or a large codebase (largest-context models)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FIT -->
+  <section class="block" id="fit">
+    <h2>Try it: will it fit?</h2>
+    <p class="lead">Drag the slider to choose how much text you want to give an AI, in pages. See which context windows can hold it.</p>
+    <div class="lab">
+      <label for="pages">Amount of text: <span id="pgVal">40</span> pages (about <span id="pgTok">0</span> tokens)</label>
+      <input type="range" id="pages" min="1" max="2500" value="40">
+      <div id="wins"></div>
+    </div>
+  </section>
+
+  <!-- FULL -->
+  <section class="block" id="full">
+    <h2>What happens when the window is full?</h2>
+    <div class="grid g3">
+      <div class="card"><h3>Old parts are dropped</h3><p>Many chat apps quietly remove or shorten the oldest messages to make room. That is why an AI can "forget" something you said at the start of a very long chat.</p></div>
+      <div class="card"><h3>You get an error</h3><p>Some tools simply refuse and tell you the input is too long. You then need to shorten the text or split it into parts.</p></div>
+      <div class="card"><h3>Details get lost in the middle</h3><p>Even when everything fits, models can pay less attention to information buried in the middle of a very long input. A bigger window is not the same as perfect memory.</p></div>
+    </div>
+    <div class="callout"><b>Context is not permanent memory.</b> The model does not learn from your chat forever. When you start a new chat, the window starts empty again, unless the app has a separate memory feature that saves notes for you.</div>
+  </section>
+
+  <!-- TIPS -->
+  <section class="block" id="tips">
+    <h2>Tips for using tokens and context well</h2>
+    <div class="grid g3">
+      <div class="card"><h3>Be clear and short</h3><p>Remove filler words and repeated instructions. Fewer tokens means lower cost and more room for the answer.</p></div>
+      <div class="card"><h3>Start a new chat for a new topic</h3><p>Old, unrelated messages still fill the window and can distract the model.</p></div>
+      <div class="card"><h3>Paste only what is needed</h3><p>Instead of a full 100-page PDF, paste the two chapters that matter.</p></div>
+      <div class="card"><h3>Put key facts near the end</h3><p>For long inputs, repeat the most important instruction or question at the end.</p></div>
+      <div class="card"><h3>Summarise long chats</h3><p>Ask the AI for a short summary and start a new chat with that summary.</p></div>
+      <div class="card"><h3>Check your language</h3><p>Text in some languages needs more tokens. Keep this in mind for limits and costs.</p></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="block" id="faq">
+    <h2>Frequently asked questions</h2>
+    <details><summary>Is a token the same as a word?</summary><p>No. A token can be a whole word, part of a word, or a symbol. On average one English word is about 1.3 tokens.</p></details>
+    <details><summary>Why do different AI tools count different numbers of tokens for the same text?</summary><p>Each model family uses its own tokenizer and vocabulary, so the same sentence can be split in different ways.</p></details>
+    <details><summary>Does the AI's answer use up the context window too?</summary><p>Yes. The window has to hold your input and the model's output together.</p></details>
+    <details><summary>Is a bigger context window always better?</summary><p>Not always. Long inputs cost more, take longer, and can hide details in the middle. Use only as much context as the task needs.</p></details>
+    <details><summary>Why do languages like Telugu often use more tokens?</summary><p>Tokenizers are often trained mostly on English text, so less common scripts get cut into many small pieces. Newer tokenizers have improved this, but some languages can still cost more tokens for the same meaning.</p></details>
+  </section>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+/* learn-more cards, one per other page */
+const learn=[
+  ['genai.html','Gen AI & Agents','Generative AI vs AI agents vs agentic AI, with an agent-loop demo, a difference table and a quiz.'],
+  ['tools.html','AI Tools 2025','30+ AI tools for writing, coding, images, video, audio and research. Search, filter, compare, and open any tool directly.'],
+  ['prompts.html','Prompting','What makes a prompt weak or strong, prompting techniques with examples, and a prompt builder you can copy.'],
+  ['ethics.html','Ethics','Eight real risks of AI such as hallucinations, bias and privacy, plus a responsible-use checklist.'],
+  ['timeline.html','Timeline','A visual history of AI from the 1950 Turing test to today\'s AI agents.'],
+  ['concepts.html','Key Terms','Deep explanations of core ideas like LLMs, embeddings, RAG and reasoning models, each with a real example.'],
+  ['glossary.html','Glossary','30+ searchable AI terms explained in plain English, from token to Transformer.'],
+  ['chat.html','AI Chat','Ask a real AI model questions about anything on this site.'],
+  ['feedback.html','Feedback','Tell us what you liked and what could be better.']
+];
+const lg=document.getElementById('learnGrid');
+learn.forEach(([url,title,desc])=>{
+  const d=document.createElement('div');
+  d.className='card learncard';
+  d.innerHTML='<h3></h3><p></p><a class="btn"></a>';
+  d.querySelector('h3').textContent=title;
+  d.querySelector('p').textContent=desc;
+  const a=d.querySelector('a');a.href=url;a.textContent='Open page';
+  lg.appendChild(d);
+});
+
+/* token counter */
+function tokenize(text){
+  const parts=text.match(/\s*[A-Za-z]+|\s*\d+|\s*[^\sA-Za-z\d]/g)||[];
+  const toks=[];
+  parts.forEach(p=>{
+    const lead=p.match(/^\s*/)[0];
+    const word=p.slice(lead.length);
+    if(/^[A-Za-z]+$/.test(word)&&word.length>6){
+      for(let i=0;i<word.length;i+=4){toks.push((i===0?lead:'')+word.slice(i,i+4));}
+    }else toks.push(p);
+  });
+  return toks;
+}
+const txt=$('#txt');
+function renderTokens(){
+  const toks=tokenize(txt.value);
+  const out=$('#out');
+  out.innerHTML='';
+  toks.forEach((t,i)=>{
+    const s=document.createElement('span');
+    s.className='tok t'+(i%4);
+    s.textContent=t.replace(/ /g,'\u00A0');
+    out.appendChild(s);
+  });
+  $('#nTok').textContent=toks.length;
+  $('#nWord').textContent=(txt.value.trim().match(/\S+/g)||[]).length;
+  $('#nChar').textContent=txt.value.length;
+}
+txt.addEventListener('input',renderTokens);
+renderTokens();
+
+const windows=[['8K',8000],['32K',32000],['128K',128000],['200K',200000],['1M',1000000]];
+windows.forEach(([n])=>{
+  $('#wins').insertAdjacentHTML('beforeend','<div class="win"><b>'+n+'</b><div class="track"><div class="fill" data-w="'+n+'"></div></div><span data-r="'+n+'"></span></div>');
+});
+function renderWin(){
+  const pg=+$('#pages').value;
+  const tokens=Math.round(pg*500/0.75);
+  $('#pgVal').textContent=pg;
+  $('#pgTok').textContent=tokens.toLocaleString();
+  windows.forEach(([n,size])=>{
+    const f=$('.fill[data-w="'+n+'"]');
+    f.style.width=Math.min(100,tokens/size*100)+'%';
+    const over=tokens>size;
+    f.classList.toggle('over',over);
+    const r=$('[data-r="'+n+'"]');
+    r.textContent=over?'Too big':'Fits';
+    r.className=over?'no':'ok';
+  });
+}
+$('#pages').addEventListener('input',renderWin);
+renderWin();
+</script>
+</body>
+</html>

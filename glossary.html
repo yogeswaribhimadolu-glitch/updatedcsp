@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI glossary | AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="glossary">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero one">
+    <div>
+      <h1>AI glossary</h1>
+      <p>Short, clear definitions of common AI terms, in alphabetical order. Type in the box to search.</p>
+    </div>
+  </div>
+  <input type="search" id="gq" placeholder="Search a term, e.g. RAG, token, LLM" aria-label="Search glossary">
+  <p class="count" id="gCount" style="margin-top:10px"></p>
+  <div class="grid g2" id="gList" style="margin-top:12px"></div>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+const glossary=[
+  ['Agent','A system that uses an AI model plus tools (search, code, apps) to finish a task.'],
+  ['AGI','Artificial General Intelligence. A hypothetical AI that could learn and do almost any intellectual task as well as a human. It does not exist today.'],
+  ['Alignment','Making AI systems behave in ways that match human goals and values, and be helpful and safe.'],
+  ['API','A way for one program to talk to another. Developers use AI APIs to add AI to their own apps.'],
+  ['Bias','Unfair patterns in AI output that come from the data the model learned from.'],
+  ['Chain-of-thought','A way of getting a model to work through a problem in steps before giving the final answer.'],
+  ['Chatbot','A program you talk to in text or voice. Modern chatbots are powered by large language models.'],
+  ['Context window','The maximum number of tokens a model can consider at once, including your prompt, history and its answer.'],
+  ['Deep learning','Machine learning that uses neural networks with many layers to learn complex patterns.'],
+  ['Deepfake','A fake image, video or audio clip made with AI that looks or sounds real.'],
+  ['Diffusion model','An image generation method that starts from random noise and gradually turns it into a picture that matches your text.'],
+  ['Embedding','A list of numbers that represents the meaning of a text or image, so that similar things sit close together.'],
+  ['Few-shot prompting','Giving the AI a few examples inside your prompt so it copies the pattern.'],
+  ['Fine-tuning','Training an existing model further on specific data so it does a particular job better.'],
+  ['Generative AI','AI that creates new content such as text, images, audio, video or code.'],
+  ['Guardrails','Rules and checks that limit what an AI system can say or do.'],
+  ['Hallucination','When an AI states something false or invented in a confident way.'],
+  ['Inference','Using a trained model to produce an answer. It happens each time you send a prompt.'],
+  ['LLM','Large Language Model. An AI trained on huge amounts of text to understand and generate language.'],
+  ['Machine learning','A way of building software that learns patterns from data instead of following only fixed rules.'],
+  ['Multimodal','A model that can work with more than one type of input, such as text, images and audio.'],
+  ['Neural network','A computing system made of connected layers of simple units, loosely inspired by the brain.'],
+  ['Open-weight model','A model whose files (weights) are released publicly so others can run and adapt it, for example Llama. Licences vary.'],
+  ['Parameters','The internal numbers a model learns during training. More parameters usually means a bigger model.'],
+  ['Prompt','The instruction or question you give to an AI.'],
+  ['Prompt injection','Hidden or tricky instructions inside text, such as a web page, that try to make an AI ignore its real instructions.'],
+  ['RAG','Retrieval-Augmented Generation. The AI first looks up relevant documents, then uses them to write a more accurate answer.'],
+  ['Reasoning model','A model trained to work through a problem in steps before it gives its final answer.'],
+  ['Reinforcement learning','Training by trial and reward: actions that lead to good results are strengthened. Used in game AI and to improve chat models.'],
+  ['System prompt','Hidden instructions from the app developer that set the AI\'s role and rules before your message.'],
+  ['Temperature','A setting that controls randomness. Low is focused and predictable, high is more creative.'],
+  ['Token','A small piece of text (a word, part of a word or a symbol) that a model reads and writes.'],
+  ['Training data','The examples a model learns from, such as books, websites and code.'],
+  ['Transformer','The neural network design introduced in 2017 that powers most modern language models.']
+].sort((a,b)=>a[0].localeCompare(b[0]));
+
+function renderGlossary(){
+  const q=$('#gq').value.trim().toLowerCase();
+  const list=glossary.filter(g=>!q||(g[0]+' '+g[1]).toLowerCase().includes(q));
+  $('#gCount').textContent=list.length+' of '+glossary.length+' terms';
+  const box=$('#gList');box.innerHTML='';
+  if(!list.length){
+    const e=document.createElement('div');e.className='empty';e.textContent='No term found. Try another word.';
+    box.appendChild(e);return;
+  }
+  list.forEach(([t,d])=>{
+    const c=document.createElement('div');c.className='card term';
+    c.innerHTML='<h3></h3><p></p>';
+    c.querySelector('h3').textContent=t;
+    c.querySelector('p').textContent=d;
+    box.appendChild(c);
+  });
+}
+$('#gq').addEventListener('input',renderGlossary);
+renderGlossary();
+</script>
+</body>
+</html>

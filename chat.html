@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask the AI tutor | AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="chat">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero one">
+    <div>
+      <h1>Ask the AI tutor</h1>
+      <p>Ask anything about tokens, agents, prompts or AI tools. This chatbot is powered by a real AI model running on the server, so it works on the deployed website.</p>
+    </div>
+  </div>
+  <div class="lab">
+    <div class="chatlog" id="chatLog" aria-live="polite">
+      <div class="msg bot">Hi! I'm your AI tutor. Ask me something about AI, or tap a suggestion below.</div>
+    </div>
+    <div class="suggest" id="chatSuggest"></div>
+    <form id="chatForm" class="chatform">
+      <input type="text" id="chatInput" placeholder="Type your question" maxlength="500" aria-label="Your question" autocomplete="off">
+      <button class="btn" type="submit" id="chatSend">Send</button>
+    </form>
+    <p class="note">AI answers can contain mistakes. Check important facts.</p>
+  </div>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+const chatLog=$('#chatLog');
+let history=[];
+['What is a token?','Explain AI agents simply','Give me a good prompt for studying','What is RAG?'].forEach(s=>{
+  const b=document.createElement('button');b.type='button';b.textContent=s;
+  b.addEventListener('click',()=>{sendChat(s);});
+  $('#chatSuggest').appendChild(b);
+});
+function addMsg(cls,text){
+  const m=document.createElement('div');
+  m.className='msg '+cls;m.textContent=text;
+  chatLog.appendChild(m);chatLog.scrollTop=chatLog.scrollHeight;
+  return m;
+}
+let busy=false;
+async function sendChat(text){
+  text=text.trim();
+  if(!text||busy)return;
+  busy=true;$('#chatSend').disabled=true;
+  addMsg('user',text);
+  history.push({role:'user',content:text});
+  const waiting=addMsg('bot','Thinking...');
+  try{
+    const r=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:history.slice(-10)})
+    });
+    let data={};
+    try{data=await r.json();}catch(e){}
+    if(!r.ok||!data.reply)throw new Error(data.error||'not-available');
+    waiting.textContent=data.reply;
+    history.push({role:'assistant',content:data.reply});
+  }catch(err){
+    history.pop();
+    waiting.classList.add('err');
+    waiting.textContent=(err.message&&err.message!=='not-available')
+      ?err.message
+      :'The chatbot is not available right now. It works only on the deployed website after the API key is added.';
+  }
+  busy=false;$('#chatSend').disabled=false;
+  chatLog.scrollTop=chatLog.scrollHeight;
+}
+$('#chatForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const v=$('#chatInput').value;
+  $('#chatInput').value='';
+  sendChat(v);
+});
+</script>
+</body>
+</html>

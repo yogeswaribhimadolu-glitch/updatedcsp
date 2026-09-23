@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI ethics and safety | AI Explained</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="ethics">
+<header id="site-header"></header>
+
+<main>
+  <div class="hero one">
+    <div>
+      <h1>AI ethics and safety</h1>
+      <p>AI is powerful, but it is not perfect and it is not neutral. This page covers the main risks of AI, how they show up in real life, and what you can do to use AI responsibly.</p>
+    </div>
+  </div>
+
+  <div class="toc"><b>On this page:</b>
+    <a href="#risks">Eight risks</a>
+    <a href="#principles">Responsible AI principles</a>
+    <a href="#student">Rules for students</a>
+    <a href="#checklist">Checklist</a>
+  </div>
+
+  <section class="block" id="risks">
+    <h2>Eight risks of AI</h2>
+    <p class="lead">For each risk: what it is, what it looks like, and what you can do.</p>
+    <div class="grid g2" id="riskGrid"></div>
+  </section>
+
+  <section class="block" id="principles">
+    <h2>Responsible AI principles</h2>
+    <p class="lead">Companies, universities and governments often describe responsible AI with a similar set of ideas.</p>
+    <div class="grid g3">
+      <div class="card"><h3>Fairness</h3><p>AI should treat people fairly and not disadvantage groups.</p></div>
+      <div class="card"><h3>Transparency</h3><p>People should know when AI is being used and how it reached a result.</p></div>
+      <div class="card"><h3>Accountability</h3><p>A human or organisation is always responsible for what an AI system does.</p></div>
+      <div class="card"><h3>Privacy</h3><p>Personal data must be collected and used carefully and with consent.</p></div>
+      <div class="card"><h3>Safety and reliability</h3><p>AI should be tested and should fail safely.</p></div>
+      <div class="card"><h3>Human oversight</h3><p>For important decisions, a person must be able to review and override the AI.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="student">
+    <h2>Using AI in your studies</h2>
+    <div class="grid g2">
+      <div class="card"><h3>Good uses</h3><ul>
+        <li>Asking for an explanation of a topic you find hard</li>
+        <li>Getting practice questions and checking your answers</li>
+        <li>Improving grammar and clarity of your own writing</li>
+        <li>Brainstorming ideas and outlines</li>
+        <li>Getting help to understand an error in your code</li>
+      </ul></div>
+      <div class="card"><h3>Not okay</h3><ul>
+        <li>Submitting AI-written work as entirely your own</li>
+        <li>Using AI where your college has banned it</li>
+        <li>Copying answers without understanding them</li>
+        <li>Making up sources or trusting AI citations without checking</li>
+        <li>Uploading classmates' or teachers' private information</li>
+      </ul></div>
+    </div>
+    <div class="callout"><b>Simple rule:</b> If you cannot explain your work without the AI, you have not learned it yet. Follow your college's AI policy and mention where you used AI.</div>
+  </section>
+
+  <section class="block" id="checklist">
+    <h2>Responsible use checklist</h2>
+    <div class="lab">
+      <div id="checklistBox"></div>
+      <p class="count" id="checkScore" style="margin-top:10px"></p>
+    </div>
+  </section>
+</main>
+
+<div id="pager"></div>
+<footer id="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+/* [title, what it is, what it looks like, what you can do] */
+const risks=[
+  ['Hallucinations',
+   'AI produces text that sounds confident but is false. It predicts likely words. It does not check facts.',
+   'In 2023, lawyers in a US court case submitted legal citations that an AI chatbot had invented.',
+   'Verify important facts. Ask for sources and open them. Treat AI output as a first draft.'],
+  ['Bias',
+   'AI learns from human-made data, which contains stereotypes and gaps. The model can repeat or increase them.',
+   'Studies have found that some AI systems work worse for certain groups, for example in face recognition accuracy or in screening of job applications.',
+   'Notice patterns, ask for different viewpoints, and never use AI alone to make decisions about people.'],
+  ['Privacy',
+   'What you type may be stored or reviewed by the company, depending on the service and your settings.',
+   'A person pastes a full document with personal details into a public chatbot to summarise it.',
+   'Do not share passwords, Aadhaar or bank details, private photos or others\' data. Check privacy settings.'],
+  ['Deepfakes and misinformation',
+   'AI can create realistic fake images, voices and videos, and can produce false news at large scale.',
+   'Scammers have used cloned voices in phone calls to pretend to be a relative asking for money.',
+   'Check the source, look for a second reliable report, and call the person on a known number before acting.'],
+  ['Copyright and plagiarism',
+   'AI is trained on existing works, and the legal rules about this are still being decided. Submitting AI text as your own can count as academic misconduct.',
+   'A student hands in an AI-written essay without saying so and is reported for plagiarism.',
+   'Follow your college policy, write in your own words, mention AI help, and check licences before using generated images.'],
+  ['Over-reliance',
+   'If AI does all the thinking, you may not build your own skills and may not notice when it is wrong.',
+   'A student always asks AI for the code and cannot fix a simple error in the exam.',
+   'Try the problem first. Then ask AI to explain, quiz you or review your attempt.'],
+  ['Environmental cost',
+   'Training and running large AI models uses a lot of electricity and often water for cooling in data centres.',
+   'Millions of long AI requests every day add up to a large energy demand.',
+   'Use AI when it really helps, keep prompts focused, and avoid pointless repeated requests.'],
+  ['Jobs and skills',
+   'AI is changing many tasks. Some tasks are automated, and new tasks and roles appear.',
+   'Routine writing, translation and simple coding tasks are now often started by AI and then reviewed by people.',
+   'Build skills AI does not replace easily: judgement, communication, creativity and domain knowledge. Learn to work with AI.']
+];
+const box=$('#riskGrid');
+risks.forEach(([t,what,seen,todo])=>{
+  const c=document.createElement('div');c.className='card ethic';
+  const h=document.createElement('h3');h.textContent=t;c.appendChild(h);
+  [['What it is: ',what],['What it looks like: ',seen],['What you can do: ',todo]].forEach(([l,x])=>{
+    const p=document.createElement('p');
+    const b=document.createElement('b');b.textContent=l;
+    p.appendChild(b);p.appendChild(document.createTextNode(x));
+    c.appendChild(p);
+  });
+  box.appendChild(c);
+});
+
+const checks=[
+  'I checked important facts from a reliable source.',
+  'I did not share passwords or personal data with the AI.',
+  'I understood the answer and can explain it myself.',
+  'I followed my college rules about AI use.',
+  'I mentioned that I used AI where required.',
+  'I tested any code before using it.'
+];
+checks.forEach(c=>{
+  const l=document.createElement('label');l.className='check';
+  l.innerHTML='<input type="checkbox"><span></span>';
+  l.querySelector('span').textContent=c;
+  l.querySelector('input').addEventListener('change',updateChecks);
+  $('#checklistBox').appendChild(l);
+});
+function updateChecks(){
+  const n=$$('#checklistBox input:checked').length;
+  $('#checkScore').textContent=n+' of '+checks.length+' done'+(n===checks.length?'. You are a responsible AI user!':'');
+}
+updateChecks();
+</script>
+</body>
+</html>
