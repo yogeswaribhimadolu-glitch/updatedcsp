@@ -47,12 +47,15 @@ module.exports = async (req, res) => {
         })
       });
       const data = await r.json();
-      if (!r.ok) throw new Error('provider');
+      if (!r.ok) {
+        console.error("Anthropic Error:", data);
+        throw new Error('provider');
+      }
       reply = (data.content || []).filter(function (b) { return b.type === 'text'; }).map(function (b) { return b.text; }).join('\n');
     } else if (process.env.GEMINI_API_KEY) {
       const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
       const r = await fetch(
-        'https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent?key=' + process.env.GEMINI_API_KEY,
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`,
         {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
@@ -69,7 +72,10 @@ module.exports = async (req, res) => {
         }
       );
       const data = await r.json();
-      if (!r.ok) throw new Error('provider');
+      if (!r.ok) {
+        console.error("Gemini API Error Detail:", JSON.stringify(data));
+        return res.status(500).json({ error: data.error?.message || 'Gemini API Error' });
+      }
       const parts = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
       reply = (parts || []).map(function (p) { return p.text || ''; }).join('\n');
     } else {
@@ -79,6 +85,7 @@ module.exports = async (req, res) => {
     if (!reply.trim()) throw new Error('empty');
     return res.status(200).json({ reply: reply.trim() });
   } catch (e) {
-    return res.status(500).json({ error: 'Something went wrong. Please try again.' });
+    console.error("Catch Error:", e);
+    return res.status(500).json({ error: e.message || 'Something went wrong. Please try again.' });
   }
 };
