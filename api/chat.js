@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
       }
       reply = (data.content || []).filter(function (b) { return b.type === 'text'; }).map(function (b) { return b.text; }).join('\n');
     } else if (process.env.GEMINI_API_KEY) {
-      const model = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+      const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash';
       const r = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`,
         {
