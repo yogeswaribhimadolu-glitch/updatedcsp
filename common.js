@@ -1,6 +1,6 @@
 /* ====== CHANGE THESE TWO LINES ====== */
-const STUDENT_NAME='YOUR NAME';
-const GUIDE_NAME="Mam's Name";
+const STUDENT_NAME='YOGESWARI';
+const GUIDE_NAME="ELLAJI mam";
 /* ==================================== */
 
 const $=(s,r=document)=>r.querySelector(s);
